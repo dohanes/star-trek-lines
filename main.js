@@ -71,7 +71,7 @@ for (var [d, ep, href] of hrefs) {
     lines.shift();
     lines = lines.filter(x => x.includes(":")).flatMap(x => {
         var arr = x.split(":")
-        var name = arr.shift().split(" [")[0].split(" ").filter(x => x.toUpperCase() == x).join(" ").replace(/ *\([^)]*\) */g, "").replace(/[^A-Z +\-']/g, '').replace(/(<([^>]+)>)/gi, "").trim()
+        var name = arr.shift().split(" [")[0].replace(/<\/?[^>]+(>|$)/g, "").split(" ").filter(x => x.toUpperCase() == x).join(" ").replace(/ *\([^)]*\) */g, "").replace(/[^A-Z +\-']/g, '').replace(/(<([^>]+)>)/gi, "").trim()
         var message = arr.join(":").replace(/ *\([^)]*\) */g, "").replace(/(<([^>]+)>)/gi, "").trim();
         if (name && name == name.toUpperCase()) {
             if (name.includes("+")) {
