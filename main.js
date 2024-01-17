@@ -4,7 +4,13 @@ import fs from 'fs';
 
 var time = new Date().getTime();
 
-const seriesDirs = [['The Original Series', 'TOS', 'StarTrek'], ['The Next Generation', 'TNG', 'NextGen'], ['Deep Space Nine', 'DS9', 'DS9'], ['Voyager', 'VOY', 'Voyager'], ['Enterprise', 'ENT', 'Enterprise']] // Sub-directories of series on the chakoteya.net website
+const seriesDirs = [
+    ['The Original Series', 'TOS', 'StarTrek'], 
+    ['The Next Generation', 'TNG', 'NextGen'], 
+    ['Deep Space Nine', 'DS9', 'DS9'], 
+    ['Voyager', 'VOY', 'Voyager', 'episode_listing.htm'], 
+    ['Enterprise', 'ENT', 'Enterprise']
+] // Sub-directories of series on the chakoteya.net website
 
 // Arrays for different types of data grouping
 var rawLines = [];
@@ -17,8 +23,8 @@ var hrefs = [];
 console.log("First gathering links for all the scripts of each episode...")
 
 for (var d of seriesDirs) {
-    var [_, name, dir] = d
-    var f = await fetch(`http://www.chakoteya.net/${dir}/episodes.htm`) // Get data from chakoteya.net
+    var [_, name, dir, file] = d
+    var f = await fetch(`http://www.chakoteya.net/${dir}/${file || 'episodes.htm'}`) // Get data from chakoteya.net
     var data = await f.text();
     const $ = cheerio.load(data);
     $("table").each(function(index) {
