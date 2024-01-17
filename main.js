@@ -59,7 +59,7 @@ for (var [d, ep, href] of hrefs) {
         return $(this).html().replace(/(?:\r\n|\r|\n)/g, ' ').trim()
     }).toArray();
     
-    lines.splice(lines.findIndex(x => x.includes('episodes.htm')))
+    lines.splice(lines.findIndex(x => x.includes('episodes.htm') || x.includes('episode_listing.htm')))
 
     lines = lines.flatMap(x => x.split("<br>").map(y => y.replace(/\{[^)]*\}/g, "").replace(/\{[^)]*\]/g, "").replace(/\[[^)]*\]/g, "").replace(/\([^)]*\)/g, "").trim())).filter(x => !x.startsWith('['))
     var ind = lines.findIndex(x => !x);
