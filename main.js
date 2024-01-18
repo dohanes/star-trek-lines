@@ -55,7 +55,7 @@ for (var [d, ep, href] of hrefs) {
     
     lines.splice(lines.findIndex(x => x.includes('episodes.htm')))
 
-    lines = lines.flatMap(x => x.split("<br>").map(y => y.replace(/\{[^)]*\}/g, "").replace(/\{[^)]*\]/g, "").replace(/\[[^)]*\]/g, "").replace(/\([^)]*\)/g, "").trim())).filter(x => !x.startsWith('['))
+    lines = lines.flatMap(x => x.split("<br>").map(y => y.replace(/<\/?[^>]+(>|$)/g, "").replace(/\{[^)]*\}/g, "").replace(/\{[^)]*\]/g, "").replace(/\[[^)]*\]/g, "").replace(/\([^)]*\)/g, "").replaceAll("&nbsp;", "").trim())).filter(x => !x.startsWith('['))
     var ind = lines.findIndex(x => !x);
     if (ind == -1) {
         ind = lines.findIndex(x => x.startsWith("<b></b>"))
@@ -65,7 +65,7 @@ for (var [d, ep, href] of hrefs) {
     lines.shift();
     lines = lines.filter(x => x.includes(":")).flatMap(x => {
         var arr = x.split(":")
-        var name = arr.shift().split(" [")[0].split(" ").filter(x => x.toUpperCase() == x).join(" ").replace(/ *\([^)]*\) */g, "").replace(/[^A-Z +\-']/g, '').replace(/(<([^>]+)>)/gi, "").trim()
+        var name = arr.shift().split(" [")[0].replace(/<\/?[^>]+(>|$)/g, "").split(" ").filter(x => x.toUpperCase() == x).join(" ").replace(/ *\([^)]*\) */g, "").replace(/[^A-Z +\-']/g, '').replace(/(<([^>]+)>)/gi, "").replaceAll("&nbsp;", "").trim()
         var message = arr.join(":").replace(/ *\([^)]*\) */g, "").replace(/(<([^>]+)>)/gi, "").trim();
         if (name && name == name.toUpperCase()) {
             if (name.includes("+")) {
@@ -77,7 +77,7 @@ for (var [d, ep, href] of hrefs) {
         }
     }).filter(x => x)
 
-    var title = (episodeDetails.shift() ?? "Unknown Title").replace(/(<([^>]+)>)/gi, "");
+    var title = (episodeDetails.shift() ?? "Unknown Title").replace(/(<([^>]+)>)/gi, "").replaceAll("&nbsp;", "");
     if (title == "Unknown Title") {
         warnings.push(`S${season} E${episode}`)
         console.log("YELLOW ALERT: Was unable to retrieve the title of this episode. Something may have gone wrong.")
